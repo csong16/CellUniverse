@@ -9,7 +9,7 @@ import random
 
 from .Cells import Cell
 from .Config import SimulationConfig
-
+from .Cells import Sphere
 
 class Frame:
     def __init__(self, real_image_stack: npt.NDArray, simulation_config: SimulationConfig, cells: List[Cell], output_path: Path, image_name: str):
@@ -67,6 +67,7 @@ class Frame:
         shape = self.get_image_shape()
         synth_image_stack = []
 
+
         # Calculate the smallest box that contains both the old and new cell
         min_corner, max_corner = old_cell.calculate_minimum_box(new_cell)
 
@@ -75,7 +76,7 @@ class Frame:
             if (z < min_corner[2] or z > max_corner[2]):
                 synth_image_stack.append(self.synth_image_stack[i])
                 continue
-            
+           
             synth_image = np.full(shape, self.simulation_config.background_color)
             for cell in self.cells:
                 cell.draw(synth_image, self.simulation_config, z = z)
